@@ -2,3 +2,6 @@
 10    First    STL    FIRST    SAVE RETURN ADDRESS
 15    CLOOP    JSUB    #100    READ INPUT RECORD
 20        LDA    FIRST    TEST FOR EOF (LENGTH = 0)
+25    CLOOP2    FLOAT    1
+30    CLOOP3    FLOAT    2
+35        RSUB        Comment

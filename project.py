@@ -86,6 +86,7 @@ for i in range(1,len(input_instructions)):
         address = ""
         currentargument = input_arguments[i].split(",")
         op_code = Format3[input_instructions[i]]
+        print(op_code)
         if(input_arguments[i][0]=="#"):
             op_code+=1
             address+=hex(int(input_arguments[i][1:]))[2:] 
@@ -97,6 +98,13 @@ for i in range(1,len(input_instructions)):
         while(len(address)<4):
             address="0"+address
         ob_code = op_code+address
+        print(ob_code)
+    if(input_instructions[i] in Format1):
+        op_code = Format1[input_instructions[i]]
+        op_code = hex(op_code)[2:]
+        while(len(op_code)<2):
+            op_code = "0"+op_code
+        ob_code = op_code
         print(ob_code)
 
 

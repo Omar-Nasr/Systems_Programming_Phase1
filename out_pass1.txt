@@ -2,3 +2,8 @@
 1000    FIRST    STL    FIRST
 1003    CLOOP    JSUB    #100
 1006        LDA    FIRST
+1009    CLOOP2    FLOAT    1
+
+100a    CLOOP3    FLOAT    2
+
+100b        RSUB    

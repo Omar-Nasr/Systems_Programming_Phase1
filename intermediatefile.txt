@@ -2,3 +2,8 @@ COPY    START    1000
 FIRST    STL    FIRST
 CLOOP    JSUB    #100
     LDA    FIRST
+CLOOP2    FLOAT    1
+
+CLOOP3    FLOAT    2
+
+    RSUB    
