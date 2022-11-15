@@ -1,0 +1,4 @@
+COPY    START    1000
+FIRST    STL    FIRST
+CLOOP    JSUB    #100
+    LDA    FIRST
