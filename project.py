@@ -79,25 +79,41 @@ with open("out_pass1.txt","w") as f:
 with open("symbTable.txt","w") as f:
     for symbol in Symbol_Table:
         f.write(symbol + "    "+ Symbol_Table[symbol] + "\n")
+
+
+
+
 ## Pass 2 
 obcode = ['']*len(input_instructions)
+ob_code = ''
 for i in range(1,len(input_instructions)):
     if(input_instructions[i] in Format3):
         address = ""
-        currentargument = input_arguments[i].split(",")
+        address_hex = 0
+        currentargumentwithcomma = input_arguments[i].split(",")
+        currentargument = currentargumentwithcomma[0]
         op_code = Format3[input_instructions[i]]
-        print(op_code)
-        if(input_arguments[i][0]=="#"):
+        if(currentargument[0]=="#"):
             op_code+=1
-            address+=hex(int(input_arguments[i][1:]))[2:] 
+            if(currentargument[1:] in Symbol_Table):
+                address_hex=int(Symbol_Table[currentargument[1:]],16)
+            else:
+                address_hex = int(currentargument[1:],10)
         else:
-            address+=Symbol_Table[currentargument[0]]
+            address_hex=int(Symbol_Table[currentargument],16)
+        if(len(currentargumentwithcomma)>1):
+            if(currentargumentwithcomma[1]=="X"):
+                address_hex = address_hex + 32768
+            else:
+                print("error")
         op_code = hex(op_code)[2:]
+        address = hex(address_hex)[2:]
         while(len(op_code)<2):
             op_code = "0"+op_code
         while(len(address)<4):
             address="0"+address
         ob_code = op_code+address
+        
         print(ob_code)
     if(input_instructions[i] in Format1):
         op_code = Format1[input_instructions[i]]
@@ -106,6 +122,15 @@ for i in range(1,len(input_instructions)):
             op_code = "0"+op_code
         ob_code = op_code
         print(ob_code)
+    obcode[i] = ob_code
+with open("out_pass2.txt","w") as f:
+    for i in range(len(input_instructions)):
+        f.write(Location_Counter[i][2:] + "    " + labels[i] + "    " + input_instructions[i] + "    " + input_arguments[i]+"    "+obcode[i]+ "\n")
+
+
+#HTE
+
+
 
 
 
