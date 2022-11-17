@@ -1,4 +1,5 @@
 #InstructionSetDefinition
+import math
 Format3 = {
         "ADD":int("18",16),
         "AND":int("40",16),
@@ -60,6 +61,9 @@ Location_Counter = ['']*len(input_instructions)
 Program_Name = labels[0] 
 print(Program_Name)
 for i in range(1,len(input_instructions)):
+    if(input_instructions[i]=="END"):
+        Location_Counter[i] = hex(Current_Location)
+        continue
     if(input_instructions[i] in Format3):
         Location_Counter[i] = hex(Current_Location)
         Current_Location+=3
@@ -85,8 +89,8 @@ with open("symbTable.txt","w") as f:
 
 ## Pass 2 
 obcode = ['']*len(input_instructions)
-ob_code = ''
 for i in range(1,len(input_instructions)):
+    ob_code = ''
     if(input_instructions[i] in Format3):
         address = ""
         address_hex = 0
@@ -113,7 +117,7 @@ for i in range(1,len(input_instructions)):
         while(len(address)<4):
             address="0"+address
         ob_code = op_code+address
-        
+
         print(ob_code)
     if(input_instructions[i] in Format1):
         op_code = Format1[input_instructions[i]]
@@ -129,7 +133,52 @@ with open("out_pass2.txt","w") as f:
 
 
 #HTE
+with open("HTE.txt","w") as f:
+    records = []
+    while(len(Program_Name)<6):
+        Program_Name = Program_Name+"X"
+    Starting_Address = Location_Counter[1][2:]
+    while(len(Starting_Address)<6):
+        Starting_Address = "0" + Starting_Address
+    Ending_Address = Location_Counter[len(Location_Counter)-1][2:]
+    Program_Size = int(Ending_Address,16) - int(Starting_Address,16)
+    Program_Size = hex(Program_Size)[2:]
+    while(len(Program_Size)<6):
+        Program_Size = "0" + Program_Size
+    records.append("H"+Program_Name+Starting_Address+Program_Size)
+    i = 1
+    while(i<len(input_instructions)):
+        T_Starting_Address = int(Location_Counter[i][2:],16)
+        T_Record = ""
+        T_Record_Size = 0
+        print(obcode[i])
+        while(T_Record_Size<30):
+            if(obcode[i]==''):
+                break
+            if(T_Record_Size + math.floor(len(obcode[i])/2) <=30):
+                T_Record_Size+=math.floor(len(obcode[i])/2)
+                T_Record+=obcode[i]
+                i+=1
+            else:
+                break
+        T_Record_Size = hex(T_Record_Size)[2:]
+        while(len(T_Record_Size)<2):
+            T_Record_Size = "0"+T_Record_Size
+        T_Starting_Address = hex(T_Starting_Address)[2:]
+        while(len(T_Starting_Address)<6):
+            T_Starting_Address = "0"+T_Starting_Address
+        records.append("T"+T_Starting_Address+T_Record_Size+T_Record)
+        i+=1
 
+
+
+    records.append("E"+Starting_Address)
+    for i in range(len(records)):
+        f.write(records[i]+"\n")
+
+    
+    
+    
 
 
 
