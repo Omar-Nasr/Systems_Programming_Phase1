@@ -4,4 +4,13 @@
 1006        LDA    FIRST
 1009    CLOOP2    FLOAT    1
 100a    CLOOP3    FLOAT    2
-100b        END    
+100b        LDA    #400,X
+100e        LDA    FIRST
+1011        LDA    FIRST
+1014        LDA    FIRST
+1017        LDA    FIRST
+101a        LDA    FIRST
+101d        LDA    FIRST
+1020        LDA    FIRST
+1023        LDA    FIRST
+1026        END    

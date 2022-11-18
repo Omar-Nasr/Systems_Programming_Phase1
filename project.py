@@ -45,10 +45,17 @@ with open("testfile.txt") as f:
     input_instructions = []
     input_arguments = []
     for line in f:
-        x = line.split("    ")
+        if(line.replace(" ","")==""):
+            continue
+        print(line)
+        x = line.replace("\n","").split("    ")
         labels.append(x[1].upper())
         input_instructions.append(x[2].upper())
-        input_arguments.append(x[3].upper())
+        print(x[2].upper())
+        if(3<len(x)):
+            input_arguments.append(x[3].upper())
+        else:
+            input_arguments.append("")
 with open("intermediatefile.txt","w") as f:
     for i in range(len(input_instructions)):
         f.write(labels[i] + "    " + input_instructions[i] + "    " + input_arguments[i]+"\n")
@@ -153,7 +160,10 @@ with open("HTE.txt","w") as f:
         T_Record_Size = 0
         print(obcode[i])
         while(T_Record_Size<30):
+            if(i==len(input_instructions)):
+                break
             if(obcode[i]==''):
+                i+=1
                 break
             if(T_Record_Size + math.floor(len(obcode[i])/2) <=30):
                 T_Record_Size+=math.floor(len(obcode[i])/2)
@@ -168,8 +178,6 @@ with open("HTE.txt","w") as f:
         while(len(T_Starting_Address)<6):
             T_Starting_Address = "0"+T_Starting_Address
         records.append("T"+T_Starting_Address+T_Record_Size+T_Record)
-        i+=1
-
 
 
     records.append("E"+Starting_Address)
