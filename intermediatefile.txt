@@ -1,16 +1,16 @@
-COPY    START    1000
-FIRST    STL    FIRST
-CLOOP    JSUB    #100,X
-    LDA    FIRST
-CLOOP2    FLOAT    1
-CLOOP3    FLOAT    2
-    LDA    #400,X
-    LDA    FIRST
-    LDA    FIRST
-    LDA    FIRST
-    LDA    FIRST
-    LDA    FIRST
-    LDA    FIRST
-    LDA    FIRST
-    LDA    FIRST
-    END    
+COPY      START     1000  
+FIRST     STL       FIRST 
+CLOOP     JSUB      #100,X
+          LDA       FIRST 
+CLOOP2    FLOAT     1     
+CLOOP3    FLOAT     2     
+          LDA       #400,X
+          LDA       FIRST 
+          LDA       FIRST 
+          LDA       FIRST 
+          LDA       FIRST 
+          LDA       FIRST 
+          LDA       FIRST 
+          LDA       FIRST 
+          LDA       FIRST 
+          END             

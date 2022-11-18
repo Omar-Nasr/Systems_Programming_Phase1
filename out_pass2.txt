@@ -1,16 +1,16 @@
-    COPY    START    1000    
-1000    FIRST    STL    FIRST    141000
-1003    CLOOP    JSUB    #100,X    498064
-1006        LDA    FIRST    001000
-1009    CLOOP2    FLOAT    1    c0
-100a    CLOOP3    FLOAT    2    c0
-100b        LDA    #400,X    018190
-100e        LDA    FIRST    001000
-1011        LDA    FIRST    001000
-1014        LDA    FIRST    001000
-1017        LDA    FIRST    001000
-101a        LDA    FIRST    001000
-101d        LDA    FIRST    001000
-1020        LDA    FIRST    001000
-1023        LDA    FIRST    001000
-1026        END        
+          COPY      START     1000            
+1000      FIRST     STL       FIRST     141000
+1003      CLOOP     JSUB      #100,X    498064
+1006                LDA       FIRST     001000
+1009      CLOOP2    FLOAT     1         c0    
+100a      CLOOP3    FLOAT     2         c0    
+100b                LDA       #400,X    018190
+100e                LDA       FIRST     001000
+1011                LDA       FIRST     001000
+1014                LDA       FIRST     001000
+1017                LDA       FIRST     001000
+101a                LDA       FIRST     001000
+101d                LDA       FIRST     001000
+1020                LDA       FIRST     001000
+1023                LDA       FIRST     001000
+1026                END                       

@@ -47,18 +47,16 @@ with open("testfile.txt") as f:
     for line in f:
         if(line.replace(" ","")==""):
             continue
-        print(line)
         x = line.replace("\n","").split("    ")
         labels.append(x[1].upper())
         input_instructions.append(x[2].upper())
-        print(x[2].upper())
         if(3<len(x)):
             input_arguments.append(x[3].upper())
         else:
             input_arguments.append("")
 with open("intermediatefile.txt","w") as f:
     for i in range(len(input_instructions)):
-        f.write(labels[i] + "    " + input_instructions[i] + "    " + input_arguments[i]+"\n")
+        f.write(labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"\n")
 
 
 ## Pass 1
@@ -66,7 +64,6 @@ Current_Location = int(input_arguments[0],16)
 
 Location_Counter = ['']*len(input_instructions)
 Program_Name = labels[0] 
-print(Program_Name)
 for i in range(1,len(input_instructions)):
     if(input_instructions[i]=="END"):
         Location_Counter[i] = hex(Current_Location)
@@ -86,10 +83,10 @@ for i in range(1,len(input_instructions)):
 
 with open("out_pass1.txt","w") as f:
     for i in range(len(input_instructions)):
-        f.write(Location_Counter[i][2:] + "    " + labels[i] + "    " + input_instructions[i] + "    " + input_arguments[i]+"\n")
+        f.write(Location_Counter[i][2:].ljust(6) + "    " + labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"\n")
 with open("symbTable.txt","w") as f:
     for symbol in Symbol_Table:
-        f.write(symbol + "    "+ Symbol_Table[symbol] + "\n")
+        f.write(symbol.ljust(6) + "    "+ Symbol_Table[symbol].ljust(6) + "\n")
 
 
 
@@ -125,18 +122,16 @@ for i in range(1,len(input_instructions)):
             address="0"+address
         ob_code = op_code+address
 
-        print(ob_code)
     if(input_instructions[i] in Format1):
         op_code = Format1[input_instructions[i]]
         op_code = hex(op_code)[2:]
         while(len(op_code)<2):
             op_code = "0"+op_code
         ob_code = op_code
-        print(ob_code)
     obcode[i] = ob_code
 with open("out_pass2.txt","w") as f:
     for i in range(len(input_instructions)):
-        f.write(Location_Counter[i][2:] + "    " + labels[i] + "    " + input_instructions[i] + "    " + input_arguments[i]+"    "+obcode[i]+ "\n")
+        f.write(Location_Counter[i][2:].ljust(6) + "    " + labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"    "+obcode[i].ljust(6)+ "\n")
 
 
 #HTE
@@ -158,7 +153,6 @@ with open("HTE.txt","w") as f:
         T_Starting_Address = int(Location_Counter[i][2:],16)
         T_Record = ""
         T_Record_Size = 0
-        print(obcode[i])
         while(T_Record_Size<30):
             if(i==len(input_instructions)):
                 break
