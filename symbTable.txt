@@ -1,17 +1,4 @@
 FIRST     1000  
 CLOOP     1003  
-ENDFIL    1015  
-EOF             
-THREE           
-ZERO            
-RETADR          
-LENGTH          
-BUFFER          
-RDREC     102a  
-RLOOP     1030  
-EXIT      1048  
-INPUT           
-MAXLEN          
-WRREC     104e  
-WLOOP     1051  
-OUTPUT          
+CLOOP2    1009  
+CLOOP3    100a  

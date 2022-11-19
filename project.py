@@ -85,7 +85,6 @@ def main():
                 print("Syntax Error At Line " + line_numbers[-1])
                 return
 
-    print(input_arguments,input_instructions,labels,line_numbers)
     with open("intermediatefile.txt","w") as f:
         for i in range(len(input_instructions)):
             f.write(labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"\n")
@@ -206,9 +205,9 @@ def main():
             while(len(T_Starting_Address)<6):
                 T_Starting_Address = "0"+T_Starting_Address
             records.append("T"+T_Starting_Address+T_Record_Size+T_Record)
-            records.append("E"+Starting_Address)
-            for i in range(len(records)):
-                f.write(records[i]+"\n")
+        records.append("E"+Starting_Address)
+        for i in range(len(records)):
+            f.write(records[i]+"\n")
 if __name__ == "__main__":
     main()
 
