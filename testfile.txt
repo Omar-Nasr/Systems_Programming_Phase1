@@ -1,11 +1,14 @@
-5    COPY    START    1000    COPY FILE FROM INPUT TO OUTPUT
+5     COPY    START    1000    COPY FILE FROM INPUT TO OUTPUT
 10    First    STL    FIRST    SAVE RETURN ADDRESS
 15    CLOOP    JSUB    #100,X    READ INPUT RECORD
-20        LDA    FIRST    TEST FOR EOF (LENGTH = 0)
+20              LDA    FIRST    TEST FOR EOF (LENGTH = 0)
 25    CLOOP2    FLOAT    1    
 30    CLOOP3    FLOAT    2    
 35        LDA    #400,X    Comment
 40        LDA    FIRST        
+110 . this is a comment
+115 . this is a comment
+120 . this is a comment
 40        LDA    FIRST        
 40        LDA    FIRST        
 40        LDA    FIRST        

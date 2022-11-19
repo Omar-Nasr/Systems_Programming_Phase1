@@ -36,27 +36,53 @@ Format1 = {
         "SIO":int("F0",16),
         "TIO":int("F8",16),
         }
+OtherInstructions = {
+        "WORD",
+        "RESW",
+        "BYTE",
+        "RESB",
+        "END",
+        "START",
+
+        }
 
 
 
 #intermediatefilecreation
-with open("testfile.txt") as f:
+with open("input.txt") as f:
+    line_numbers = []
     labels = []
     input_instructions = []
     input_arguments = []
     for line in f:
         if(line.replace(" ","")==""):
             continue
-        x = line.replace("\n","").split("    ")
-        labels.append(x[1].upper())
-        input_instructions.append(x[2].upper())
-        if(3<len(x)):
-            input_arguments.append(x[3].upper())
-        else:
-            input_arguments.append("")
-with open("intermediatefile.txt","w") as f:
-    for i in range(len(input_instructions)):
-        f.write(labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"\n")
+        x = line.replace("\n","")
+        x = x.split()
+        x = " ".join(x)
+        x = x.upper()
+        x = x.split()
+        if(x[1]== "."):
+            continue
+        line_numbers.append(int(x[0]))
+        if(x[1] in Format3 or x[1] in Format1 or x[1] in OtherInstructions):
+            labels.append("")
+            input_instructions.append(x[1])
+            if(x[1] == "RSUB" or x[1] == "END"):
+                input_arguments.append("")
+            else:
+                input_arguments.append(x[2])
+        elif(x[2] in Format3 or x[2] in Format1 or x[2] in OtherInstructions):
+            labels.append(x[1])
+            input_instructions.append(x[2])
+            if(x[2] == "RSUB"):
+                input_arguments.append("")
+            else:
+                input_arguments.append(x[3])
+    print(input_arguments,input_instructions,labels,line_numbers)
+    with open("intermediatefile.txt","w") as f:
+         for i in range(len(input_instructions)):
+             f.write(labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"\n")
 
 
 ## Pass 1
