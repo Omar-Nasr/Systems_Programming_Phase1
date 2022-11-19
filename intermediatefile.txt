@@ -1,9 +1,9 @@
-COPY      START     1000  
+COPYYYY    START     1000  
 FIRST     STL       FIRST 
 CLOOP     JSUB      #100,X
           LDA       FIRST 
-CLOOP2    FLOAT     1     
-CLOOP3    FLOAT     2     
+CLOOP2    FLOAT           
+CLOOP3    FLOAT           
           LDA       #400,X
           LDA       FIRST 
           LDA       FIRST 
@@ -13,4 +13,5 @@ CLOOP3    FLOAT     2
           LDA       FIRST 
           LDA       FIRST 
           LDA       FIRST 
+          RSUB            
           END             

@@ -70,14 +70,14 @@ def main():
             if(x[1] in Format3 or x[1] in Format1 or x[1] in OtherInstructions):
                 labels.append("")
                 input_instructions.append(x[1])
-                if(x[1] == "RSUB" or x[1] == "END"):
+                if(x[1] == "RSUB" or x[1] == "END" or x[1] in Format1):
                     input_arguments.append("")
                 else:
                     input_arguments.append(x[2])
             elif(x[2] in Format3 or x[2] in Format1 or x[2] in OtherInstructions):
                 labels.append(x[1])
                 input_instructions.append(x[2])
-                if(x[2] == "RSUB"):
+                if(x[2] == "RSUB" or x[2] in Format1):
                     input_arguments.append("")
                 else:
                     input_arguments.append(x[3])
@@ -131,6 +131,18 @@ def main():
         if(input_instructions[i] in Format3):
             address = ""
             address_hex = 0
+            if(input_instructions[i]=="RSUB"):
+                op_code = Format3[input_instructions[i]]
+                op_code = hex(op_code)[2:]
+                address = hex(address_hex)[2:]
+                while(len(op_code)<2):
+                   op_code = "0"+op_code
+                while(len(address)<4):
+                   address="0"+address
+                ob_code = op_code+address
+                obcode[i] = ob_code
+                continue
+
             currentargumentwithcomma = input_arguments[i].split(",")
             currentargument = currentargumentwithcomma[0]
             op_code = Format3[input_instructions[i]]
