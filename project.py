@@ -1,3 +1,4 @@
+
 #InstructionSetDefinition
 import math
 import sys
@@ -84,7 +85,6 @@ def main():
             else:
                 print("Syntax Error At Line " + line_numbers[-1])
                 return
-
     with open("intermediatefile.txt","w") as f:
         for i in range(len(input_instructions)):
             f.write(labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"\n")
@@ -101,12 +101,24 @@ def main():
         if(input_instructions[i]=="END"):
             Location_Counter[i] = hex(Current_Location)
             continue
-        if(input_instructions[i] in Format3):
+        if input_instructions[i] in Format3 or input_instructions[i] == "WORD":
             Location_Counter[i] = hex(Current_Location)
             Current_Location+=3
-        elif input_instructions[i] in Format1:
+        elif input_instructions[i] in Format1 or input_instructions[i] == "BYTE":
             Location_Counter[i] = hex(Current_Location)
-            Current_Location+=1
+            if(input_instructions[i]=="BYTE"):
+                if input_arguments[i][0] == 'C':
+                    Current_Location += len(input_arguments[i])-3
+                elif input_arguments[i][0] == 'X':
+                    Current_Location += math.floor((len(input_arguments[i])-3)/2)
+            else:
+                Current_Location+=1
+        elif input_instructions[i] in OtherInstructions:
+            Location_Counter[i] = hex(Current_Location)
+            if input_instructions[i] == "RESW":
+                Current_Location += int(input_arguments[i])*3
+            elif input_instructions[i] == "RESB":
+                Current_Location += int(input_arguments[i])
         else:
             Location_Counter[i] = ""
     Symbol_Table = {}
@@ -142,7 +154,6 @@ def main():
                 ob_code = op_code+address
                 obcode[i] = ob_code
                 continue
-
             currentargumentwithcomma = input_arguments[i].split(",")
             currentargument = currentargumentwithcomma[0]
             op_code = Format3[input_instructions[i]]
@@ -154,8 +165,8 @@ def main():
                     address_hex = int(currentargument[1:],10)
             else:
                 address_hex=int(Symbol_Table[currentargument],16)
-            if(len(currentargumentwithcomma)>1):
-                if(currentargumentwithcomma[1]=="X"):
+            if len(currentargumentwithcomma) > 1:
+                if currentargumentwithcomma[1] == "X":
                     address_hex = address_hex + 32768
                 else:
                     print("error")
@@ -173,7 +184,49 @@ def main():
             while(len(op_code)<2):
                 op_code = "0"+op_code
             ob_code = op_code
+
+        if input_instructions[i] in OtherInstructions:
+            input_arguments_hex = ""
+            if input_instructions[i] == "WORD":
+                input_arguments_hex = hex(int(input_arguments[i]))[2:]
+                while len(input_arguments_hex) < 6:
+                    input_arguments_hex = "0" + input_arguments_hex
+            elif input_instructions[i] == "BYTE":
+                if input_arguments[i][0] == 'C':
+                    real_input_argument=input_arguments[i]
+                    real_input=real_input_argument[2: -1]
+                    # Initialize final String
+                    hexa = ""
+
+                    # Make a loop to iterate through
+                    # every character of ascii string
+                    for j in range(len(real_input)):
+                        # take a char from
+
+
+
+                        # cast char to integer and
+                        # find its ascii value
+                        in1 = ord(real_input[j])
+
+                        # change this ascii value
+                        # integer to hexadecimal value
+                        part = hex(in1).lstrip("0x")
+
+                        # add this hexadecimal value
+                        # to final string.
+                        hexa += part
+                    input_arguments_hex+=hexa
+
+                elif input_arguments[i][0] == 'X':
+                    real_input_argument = input_arguments[i]
+                    input_arguments_hex = real_input_argument[2: -1]
+       
+            ob_code = input_arguments_hex
         obcode[i] = ob_code
+        print(obcode[i])
+    for i in range(len(obcode)):
+        print(obcode[i])
     with open("out_pass2.txt","w") as f:
         for i in range(len(input_instructions)):
             f.write(Location_Counter[i][2:].ljust(6) + "    " + labels[i].ljust(6) + "    " + input_instructions[i].ljust(6) + "    " + input_arguments[i].ljust(6)+"    "+obcode[i].ljust(6)+ "\n")
@@ -210,7 +263,10 @@ def main():
                     i+=1
                 else:
                     break
+            if(T_Record_Size==0):
+                continue
             T_Record_Size = hex(T_Record_Size)[2:]
+        
             while(len(T_Record_Size)<2):
                 T_Record_Size = "0"+T_Record_Size
             T_Starting_Address = hex(T_Starting_Address)[2:]
